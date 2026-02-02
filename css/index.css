@@ -1,0 +1,319 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+i {
+    cursor: pointer;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+header {
+    height: 55px;
+    display: flex;
+    padding: 0 20px;
+    column-gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#login-container {
+    display: flex;
+    cursor: pointer;
+    column-gap: 16px;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    height: calc(100% - 55px);
+}
+
+nav {
+    width: 300px;
+    padding : 20px;
+}
+
+.button.flex-container {
+    width: 100%;
+    color: #FFF;
+    display: flex;
+    border-radius: 5px;
+    align-items: center;
+    box-sizing: border-box;
+    border: 1px solid #5645D7;
+    background-color: #6D5BF0;
+    justify-content: space-between;
+}
+
+.button.flex-container div {
+    cursor: pointer;
+    padding: 6px 20px;
+    border-radius: 5px;
+}
+
+.button.flex-container div:first-child {
+    border-radius: 0;
+    border-right : 1px solid #5645D7;
+}
+
+.title.flex-container {
+    display: flex;
+    margin: 24px 0;
+    column-gap: 24px;
+    align-items: center;
+    justify-content: center;
+}
+
+.title.flex-container i {
+    font-size: 0.75rem;
+}
+
+.yearmonth {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.weekday.container {
+    display: grid;
+    font-size: 0.75rem;
+    text-align: center;   
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.dates.container {
+    display: grid;
+    font-size: 0.75rem;
+    text-align: center;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.date.item {
+    display: grid;
+    aspect-ratio: 1/1;
+    place-items: center;
+}
+
+.date.item.today {
+    border: 1px solid #999;
+}
+
+#main-calendar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.info.flex-box, .sort.flex-box {
+    flex-shrink: 0;
+}
+
+.info.flex-box {
+    padding: 20px;
+    display: flex;
+    font-size: 24px;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.info.flex-box div {
+    height: 36px;
+    display: flex;
+    color: #5A5A5A;
+    align-items: center;
+}
+
+.info.flex-box div:first-child {
+    width: 36px;
+    justify-content: center;
+    background-color: #FFF;
+    border : 1px solid #CBCBCB;
+}
+
+.info.flex-box div:last-child {
+    padding: 0 10px;
+    font-size: 18px;
+    background-color: #FFF;
+    border : 1px solid #CBCBCB;
+}
+
+.info.flex-box div:last-child input {
+    border: none;
+    outline: none;
+}
+
+.sort.flex-box {
+    height: 36px;
+    display: flex;
+    padding-left: 20px;
+    align-items: center;
+    margin-bottom: 16px;
+    justify-content: space-between;
+}
+
+.sort.dates {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.sort.dates div:first-child {
+    display: flex;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-right: 10px;
+    align-items: center;
+}
+
+.sort.dates div i {
+    width: 30px;
+    padding: 0 6px;
+}
+
+.sort.dates .lef,
+.sort.dates .rig {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+}
+
+.sort.dates div:last-child {
+    height: 100%;
+    padding: 0 8px;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+.sort.dates div i, .sort.dates div:last-child {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: #FFF;
+    border : 1px solid #CBCBCB;
+}
+
+.sort.button {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+}
+
+.sort.button div {
+    display: flex;
+    padding: 0 8px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFF;
+    border : 1px solid #CBCBCB;
+}
+
+.weekdays.box {
+    display: grid;
+    padding: 8px 20px;
+    font-size: 0.75rem;   
+    background-color: #f0f0f0;
+    border-top: 1px solid #CBCBCB;
+    grid-template-columns: repeat(7, 1fr); 
+}
+
+.date.box {
+    display: grid;
+    font-size: 0.75rem;
+    text-align: center;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.dates.items {
+    display: grid;
+    aspect-ratio: 1/1;
+    place-items: center;
+}
+
+.dates.items.today2 {
+    border: 1px solid #999;
+}
+
+/* tablet */
+@media screen and (max-width: 720px) {
+}
+
+/* mobile */
+@media screen and (max-width: 540px) {
+    main {
+        margin-top: calc(44px + 40px);
+        width: calc(100% - 10px * 2);
+    }
+}
+
+.main-calendar {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 200px); 
+}
+
+/* 요일 */
+.weekdays.box {
+    display: grid;
+    background: #f5f6f7;
+    border-bottom: 1px solid #ddd;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.weekdays.items {
+    font-weight: bold;
+}
+
+.date.box {
+    flex: 1;
+    display: grid;
+    text-align: left;
+    grid-auto-rows: 1fr;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.date.box .date-item {
+    font-size: 14px;
+    padding: 8px 0 0 8px;
+    box-sizing: border-box;
+    border: 1px solid #eee;
+}
+
+.date-number {
+    font-weight: bold;
+}
+
+.weekdays.box, .date.box {
+    display: grid;
+    box-sizing: border-box;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.weekdays.box {
+    padding: 0;
+    grid-auto-rows: 1fr;
+}
+
+.weekdays.items {
+    font-weight: bold;
+    line-height: 40px;
+    padding-left: 8px;
+    background: #f5f6f7;
+    box-sizing: border-box;
+    border: 1px solid #eee;
+}
+
+nav#nav-calendar.hidden {
+    margin-left: -300px;
+}
