@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 - 나만의 스케줄러 만들기</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/eventAdd.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+    <header>
+        <p><a href="../index.html" style="color:inherit;text-decoration:none;">나만의 스케줄러 만들기</a></p>
+        <div id="login-container">
+            <a href="login.html" class="login-button">로그인</a>
+        </div>
+    </header>
+
+    <main class="auth-main">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>회원가입</h1>
+                <p>정보를 입력하고 나만의 스케줄러를 시작하세요.</p>
+            </div>
+
+            <form class="auth-form" id="signupForm" action="#" method="post">
+                <div class="form-group">
+                    <label for="signupName">이름</label>
+                    <input type="text" id="signupName" name="name" placeholder="이름 입력" required autocomplete="name">
+                    <span class="auth-error" id="signupNameError" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">이메일</label>
+                    <input type="email" id="signupEmail" name="email" placeholder="example@email.com" required autocomplete="email">
+                    <span class="auth-error" id="signupEmailError" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">비밀번호</label>
+                    <input type="password" id="signupPassword" name="password" placeholder="비밀번호 (6자 이상)" required autocomplete="new-password" minlength="6">
+                    <span class="auth-error" id="signupPasswordError" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                    <label for="signupPasswordConfirm">비밀번호 확인</label>
+                    <input type="password" id="signupPasswordConfirm" name="passwordConfirm" placeholder="비밀번호 다시 입력" required autocomplete="new-password">
+                    <span class="auth-error" id="signupPasswordConfirmError" aria-live="polite"></span>
+                </div>
+                <button type="submit" class="btn-submit" id="signupSubmit">회원가입</button>
+            </form>
+
+            <div class="auth-footer">
+                <a href="login.html">이미 계정이 있으신가요? 로그인</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var name = document.getElementById('signupName').value.trim();
+            var email = document.getElementById('signupEmail').value.trim();
+            var password = document.getElementById('signupPassword').value;
+            var passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+            var nameErr = document.getElementById('signupNameError');
+            var emailErr = document.getElementById('signupEmailError');
+            var pwdErr = document.getElementById('signupPasswordError');
+            var pwdConfirmErr = document.getElementById('signupPasswordConfirmError');
+
+            [nameErr, emailErr, pwdErr, pwdConfirmErr].forEach(function(el) { el.textContent = ''; });
+            document.getElementById('signupName').classList.remove('error');
+            document.getElementById('signupEmail').classList.remove('error');
+            document.getElementById('signupPassword').classList.remove('error');
+            document.getElementById('signupPasswordConfirm').classList.remove('error');
+
+            var valid = true;
+            if (!name) {
+                nameErr.textContent = '이름을 입력해 주세요.';
+                document.getElementById('signupName').classList.add('error');
+                valid = false;
+            }
+            if (!email) {
+                emailErr.textContent = '이메일을 입력해 주세요.';
+                document.getElementById('signupEmail').classList.add('error');
+                valid = false;
+            }
+            if (!password) {
+                pwdErr.textContent = '비밀번호를 입력해 주세요.';
+                document.getElementById('signupPassword').classList.add('error');
+                valid = false;
+            } else if (password.length < 6) {
+                pwdErr.textContent = '비밀번호는 6자 이상이어야 합니다.';
+                document.getElementById('signupPassword').classList.add('error');
+                valid = false;
+            }
+            if (password !== passwordConfirm) {
+                pwdConfirmErr.textContent = '비밀번호가 일치하지 않습니다.';
+                document.getElementById('signupPasswordConfirm').classList.add('error');
+                valid = false;
+            }
+            if (!valid) return;
+
+            var users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (users.some(function(u) { return u.email === email; })) {
+                emailErr.textContent = '이미 사용 중인 이메일입니다.';
+                document.getElementById('signupEmail').classList.add('error');
+                return;
+            }
+
+            users.push({ name: name, email: email, password: password });
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('회원가입이 완료되었습니다. 로그인해 주세요.');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>
