@@ -4,21 +4,6 @@
     text-decoration: none;
 }
 
-#login-container .login-button:hover {
-    color: #FFF;
-    background-color: #5B5FFF;
-}
-
-#login-container .login-button.primary {
-    color: #FFF;
-    border-color: #5B5FFF;
-    background-color: #5B5FFF;
-}
-
-#login-container .login-button.primary:hover {
-    background-color: #4A4EEE;
-}
-
 .auth-main {
     width: 100%;
     display: flex;
