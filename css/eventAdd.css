@@ -18,6 +18,11 @@ header {
     justify-content: space-between;
 }
 
+a {
+    color: #000;
+    text-decoration: none;
+}
+
 #login-container {
     display: flex;
     cursor: pointer;
