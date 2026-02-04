@@ -258,19 +258,33 @@ const renderListView = () => {
         return;
     }
 
-    events.sort((a, b) => {
-        const aDate = a.startDate || "";
-        const bDate = b.startDate || "";
-        return aDate.localeCompare(bDate);
+    const expandedEvents = [];
+
+    events.forEach(ev => {
+        const start = new Date(ev.startDate);
+        const end = ev.endDate ? new Date(ev.endDate) : new Date(ev.startDate);
+
+        for (
+            let d = new Date(start);
+            d <= end;
+            d.setDate(d.getDate() + 1)
+        ) {
+            expandedEvents.push({
+                date: d.toISOString().slice(0, 10),
+                title: ev.title,
+                id: ev.id
+            });
+        }
     });
+
+    // 날짜순 정렬
+    expandedEvents.sort((a, b) => a.date.localeCompare(b.date));
 
     let currentDate = "";
 
-    events.forEach(ev => {
-        const date = ev.startDate || "날짜 없음";
-
-        if (date !== currentDate) {
-            currentDate = date;
+    expandedEvents.forEach(ev => {
+        if (ev.date !== currentDate) {
+            currentDate = ev.date;
             const dateDiv = document.createElement("div");
             dateDiv.className = "list-date";
             dateDiv.textContent = currentDate;
