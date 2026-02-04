@@ -302,6 +302,7 @@ nav {
     flex-direction: column;
     box-sizing: border-box;
     border: 1px solid #EEE;
+    position: relative;
 }
 
 .date-number {
@@ -319,6 +320,28 @@ nav {
     flex-direction: column;
 }
 
+.day-stickers {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 60px;
+}
+
+.calendar-sticker {
+    cursor: pointer;
+    line-height: 1;
+    font-size: 2rem;
+    transition: transform 0.2s;
+}
+
+.calendar-sticker:hover {
+    transform: scale(1.2);
+}
+
 .calendar-event {
     color: #FFF;
     cursor: pointer;
@@ -332,6 +355,13 @@ nav {
 }
 .calendar-event:hover {
     filter: brightness(1.1);
+}
+
+.event-sticker {
+    font-size: 14px;
+    margin-right: 4px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .weekdays.box, .date.box {

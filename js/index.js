@@ -1,3 +1,12 @@
+const STICKER_MAP = {
+    gift: '🎁',
+    cake: '🎂',
+    party: '🎉',
+    photo: '📷',  
+    test: '📝',
+    island: '🏝️'
+};
+
 const now = new Date();
 
 let sideYear = now.getFullYear();
@@ -89,6 +98,9 @@ const setMainCalendar = (year, month) => {
         const eventsWrap = document.createElement("div");
         eventsWrap.className = "day-events";
 
+        const stickerWrap = document.createElement("div");
+        stickerWrap.className = "day-stickers";
+
         getEventsForDate(dateStr).forEach(ev => {
             const bar = document.createElement("div");
             bar.className = "calendar-event";
@@ -99,9 +111,33 @@ const setMainCalendar = (year, month) => {
                 location.href = `html/eventAdd.html?id=${ev.id}`;
             };
             eventsWrap.appendChild(bar);
+
+            // 스티커가 있으면 스티커 영역에 추가
+            if (ev.sticker && STICKER_MAP[ev.sticker]) {
+                const sticker = document.createElement("span");
+                sticker.className = "calendar-sticker";
+                sticker.textContent = STICKER_MAP[ev.sticker];
+                sticker.title = ev.title;
+                sticker.onclick = e => {
+                    e.stopPropagation();
+                    location.href = `html/eventAdd.html?id=${ev.id}`;
+                };
+                stickerWrap.appendChild(sticker);
+            } else if (ev.sticker) {
+                const sticker = document.createElement("span");
+                sticker.className = "calendar-sticker";
+                sticker.textContent = ev.sticker;
+                sticker.title = ev.title;
+                sticker.onclick = e => {
+                    e.stopPropagation();
+                    location.href = `html/eventAdd.html?id=${ev.id}`;
+                };
+                stickerWrap.appendChild(sticker);
+            }
         });
 
         cell.appendChild(eventsWrap);
+        cell.appendChild(stickerWrap);
 
         if (
             year === now.getFullYear() &&
@@ -257,7 +293,8 @@ const renderListView = () => {
             expandedEvents.push({
                 date: d.toISOString().slice(0, 10),
                 title: ev.title,
-                id: ev.id
+                id: ev.id,
+                sticker: ev.sticker
             });
         }
     });
@@ -278,7 +315,16 @@ const renderListView = () => {
 
         const item = document.createElement("div");
         item.className = "list-event";
-        item.textContent = ev.title;
+        
+        // 아이콘 표시
+        if (ev.sticker && STICKER_MAP[ev.sticker]) {
+            item.innerHTML = `<span class="event-sticker">${STICKER_MAP[ev.sticker]}</span> ${ev.title}`;
+        } else if (ev.sticker) {
+            item.innerHTML = `<span class="event-sticker">${ev.sticker}</span> ${ev.title}`;
+        } else {
+            item.textContent = ev.title;
+        }
+        
         item.onclick = () => {
             location.href = `html/eventAdd.html?id=${ev.id}`;
         };
