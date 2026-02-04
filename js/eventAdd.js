@@ -42,9 +42,11 @@ var editingEventId = null;
 
 // 현재 날짜 설정 (수정 모드가 아닐 때만)
 if (!editingEventId) {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('startDate').value = today;
-    document.getElementById('endDate').value = today;
+    const params = new URLSearchParams(window.location.search);
+    const dateParam = params.get('date');
+    const defaultDate = dateParam || new Date().toISOString().split('T')[0];
+    document.getElementById('startDate').value = defaultDate;
+    document.getElementById('endDate').value = defaultDate;
 }
 
 // 체크박스 이벤트

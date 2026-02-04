@@ -1,31 +1,3 @@
-// const btnMonth = document.getElementById("btnMonth");
-// const btnList = document.getElementById("btnList");
-
-// const monthView = document.getElementById("monthView");
-// const listView = document.getElementById("listView");
-
-// listView.classList.add("hidden");
-
-// btnMonth.onclick = () => {
-//     monthView.classList.remove("hidden");
-//     listView.classList.add("hidden");
-// };
-
-// btnList.onclick = () => {
-//     monthView.classList.add("hidden");
-//     listView.classList.remove("hidden");
-//     renderListView(year, month);
-// };
-
-// // 정렬 버튼 클릭 시 active 적용
-// const sortBtn = document.querySelectorAll('.sort-btn');
-// sortBtn.forEach(btn => {
-//     btn.addEventListener('click', () => {
-//         sortBtn.forEach(b => b.classList.remove('active'));
-//         btn.classList.add('active');
-//     });
-// });
-
 const now = new Date();
 
 let sideYear = now.getFullYear();
@@ -214,6 +186,19 @@ document.getElementById("event-add").onclick = () => {
 
 dateBoxDiv.onclick = (e) => {
     if (e.target.closest(".calendar-event")) return;
+    
+    // 클릭한 날짜 셀 찾기
+    const dateCell = e.target.closest(".date-item");
+    if (dateCell) {
+        const dateNumber = dateCell.querySelector(".date-number");
+        if (dateNumber) {
+            const day = parseInt(dateNumber.textContent);
+            const selectedDate = `${mainYear}-${String(mainMonth).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            location.href = `html/eventAdd.html?date=${selectedDate}`;
+            return;
+        }
+    }
+    
     location.href = "html/eventAdd.html";
 };
 
