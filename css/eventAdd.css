@@ -293,7 +293,7 @@ main {
     position: absolute;
     border-radius: 2px;
     transform: translateY(-50%);
-    background-color: #FF9BB3;
+    background-color: #039BE5;
 }
 
 .icon-wrapper {
@@ -462,6 +462,20 @@ main {
 .btn-cancel:hover {
     border-color: #BBB;
     background-color: #F5F5F5;
+}
+
+.btn-delete-event {
+    padding: 10px 24px;
+    font-size: 14px;
+    color: #c00;
+    border: 1px solid #c00;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #FFF;
+    transition: all 0.2s;
+}
+.btn-delete-event:hover {
+    background-color: #ffe0e0;
 }
 
 footer {
