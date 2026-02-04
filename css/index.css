@@ -51,20 +51,15 @@ nav {
     border-radius: 5px;
     align-items: center;
     box-sizing: border-box;
+    justify-content: center;
     border: 1px solid #5645D7;
     background-color: #6D5BF0;
-    justify-content: space-between;
 }
 
 .button.flex-container div {
     cursor: pointer;
     padding: 6px 20px;
     border-radius: 5px;
-}
-
-.button.flex-container div:first-child {
-    border-radius: 0;
-    border-right : 1px solid #5645D7;
 }
 
 .title.flex-container {
