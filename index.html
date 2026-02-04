@@ -60,15 +60,15 @@
                 </div>
 
                 <div class="sort button">
-                    <div>월</div>
-                    <div>목록</div>
+                    <div class="sort-btn active" id="btnMonth">월</div>
+                    <div class="sort-btn" id="btnList">목록</div>
                 </div>
 
                 <div>
                 </div>
             </div>
 
-            <div class="main-calendar flex-box">
+            <div class="main-calendar flex-box" id="monthView">
                 <div class="weekdays box">
                     <div class="weekdays items">Sun</div>
                     <div class="weekdays items">Mon</div>
@@ -81,6 +81,9 @@
 
                 <div class="date box">
                 </div>
+            </div>
+
+            <div id="listView" class="list-view hidden">
             </div>
         </div>
     </main>

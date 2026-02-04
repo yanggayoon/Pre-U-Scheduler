@@ -1,183 +1,289 @@
-var now = new Date();
-var year = now.getFullYear();
-var month = now.getMonth() + 1;
-var date = now.getDate();
+// const btnMonth = document.getElementById("btnMonth");
+// const btnList = document.getElementById("btnList");
 
-const datesContainerDiv = document.querySelectorAll(".dates.container")[0];
-const dateBoxDiv = document.querySelectorAll(".date.box")[0];
+// const monthView = document.getElementById("monthView");
+// const listView = document.getElementById("listView");
 
+// listView.classList.add("hidden");
+
+// btnMonth.onclick = () => {
+//     monthView.classList.remove("hidden");
+//     listView.classList.add("hidden");
+// };
+
+// btnList.onclick = () => {
+//     monthView.classList.add("hidden");
+//     listView.classList.remove("hidden");
+//     renderListView(year, month);
+// };
+
+// // 정렬 버튼 클릭 시 active 적용
+// const sortBtn = document.querySelectorAll('.sort-btn');
+// sortBtn.forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         sortBtn.forEach(b => b.classList.remove('active'));
+//         btn.classList.add('active');
+//     });
+// });
+
+const now = new Date();
+
+let sideYear = now.getFullYear();
+let sideMonth = now.getMonth() + 1;
+
+let mainYear = sideYear;
+let mainMonth = sideMonth;
+
+const datesContainerDiv = document.querySelector(".dates.container");
+const dateBoxDiv = document.querySelector(".date.box");
+
+// 사이드 캘린더
 const setCalendar = (year, month) => {
-    
-    // 년월 표시
-    const titleyearmonthDiv = document.getElementsByClassName("yearmonth")[0];
-    const titleyearmonthDiv2 = document.getElementsByClassName("year-month")[0];
-    
-    titleyearmonthDiv.innerHTML = `${year}.${String(month).padStart(2, '0')}`;
-    titleyearmonthDiv2.innerHTML = `${year}.${String(month).padStart(2, '0')}`;
-    
-    // 해당 월의 1일이 무슨 요일인지, 해당 월의 마지막 날짜가 며칠인지 : 다음달의 1일 하루 전날(0일)
-    var firstDateDay = new Date(year, month - 1, 1).getDay();
-    var lastDate = new Date(year, month, 0).getDate();
+    const titleyearmonthDiv = document.querySelector(".yearmonth");
+    titleyearmonthDiv.innerHTML = `${year}.${String(month).padStart(2, "0")}`;
 
-    // 원래 있던 달력의 .date.item clear
-    datesContainerDiv.replaceChildren();
-
-    // .date.item{$} * lastDate
-    // for 1 ~ lastDate
-    for(let date=1; date<=lastDate; date++) {
-        let dateItemDiv = document.createElement("div");
-        dateItemDiv.classList.add("date"); 
-        dateItemDiv.classList.add("item"); 
-        dateItemDiv.innerHTML = date; 
-
-        // 오늘 날짜 표시
-        if (year === now.getFullYear() && month === (now.getMonth()+1) && date === now.getDate()) {
-            dateItemDiv.classList.add("today");
-        }
-
-        // HTML에 .dates.container 자식으로 넣기
-        datesContainerDiv.appendChild(dateItemDiv);
-    }
-
-    // 1일을 firstDateDay로 옮기기 5 -> 6
-    // .dates.container의 자식 중 첫째자식(1일) style-grid-column-start: 6 (9월달의경우)
-    let firstDateDiv = datesContainerDiv.firstElementChild;
-    // CSS { grid-column-start: firstDateDay + 1; }
-    firstDateDiv.style.gridColumnStart = firstDateDay + 1;
-
-    // 토요일은 파랑색으로
-    let saturdayDivs = datesContainerDiv.querySelectorAll(`.date.item:nth-child(7n+${7-firstDateDay})`);
-    for (let dateItem of saturdayDivs) {
-        dateItem.style.color = "blue";
-    }
-
-    // 일요일은 빨강색으로
-    let sundayDivs = datesContainerDiv.querySelectorAll(`.date.item:nth-child(7n+${(8-firstDateDay)%7})`);
-    for (let dateItem of sundayDivs) {
-        dateItem.style.color = "red";
-    }
-
-}
-
-const setMainCalendar = (year, month) => {
-    dateBoxDiv.replaceChildren();
-
-    const firstDay = new Date(year, month - 1, 1).getDay();
+    const firstDateDay = new Date(year, month - 1, 1).getDay();
     const lastDate = new Date(year, month, 0).getDate();
 
-    // 빈칸
-    for (let i = 0; i < firstDay; i++) {
-        const empty = document.createElement("div");
-        empty.classList.add("date-item");
-        dateBoxDiv.appendChild(empty);
-    }
+    datesContainerDiv.replaceChildren();
 
-    // 날짜
     for (let d = 1; d <= lastDate; d++) {
-        const cell = document.createElement("div");
-        cell.classList.add("date-item");
+        const dateItemDiv = document.createElement("div");
+        dateItemDiv.classList.add("date", "item");
+        dateItemDiv.innerHTML = d;
 
-        const dayIndex = (firstDay + d - 1) % 7;
-
-        // 요일 색상
-        if (dayIndex === 0) {
-            cell.style.color = "red";   // 일요일
-        } else if (dayIndex === 6) {
-            cell.style.color = "blue";  // 토요일
-        }
-
-        cell.innerHTML = `<div class="date-number">${d}</div>`;
-
-        // 오늘 표시
         if (
             year === now.getFullYear() &&
             month === now.getMonth() + 1 &&
             d === now.getDate()
         ) {
-            cell.style.background = "#e8f0fe";
+            dateItemDiv.classList.add("today");
+        }
+
+        datesContainerDiv.appendChild(dateItemDiv);
+    }
+
+    const firstDateDiv = datesContainerDiv.firstElementChild;
+    firstDateDiv.style.gridColumnStart = firstDateDay + 1;
+
+    datesContainerDiv
+        .querySelectorAll(`.date.item:nth-child(7n+${7 - firstDateDay})`)
+        .forEach(d => d.style.color = "blue");
+
+    datesContainerDiv
+        .querySelectorAll(`.date.item:nth-child(7n+${(8 - firstDateDay) % 7})`)
+        .forEach(d => d.style.color = "red");
+};
+
+// 날짜에 맞는 일정 반환
+const getEventsForDate = (dateStr) => {
+    const events = JSON.parse(localStorage.getItem("events") || "[]");
+    return events.filter(ev => {
+        const start = ev.startDate || "";
+        const end = ev.endDate || ev.startDate || "";
+        return dateStr >= start && dateStr <= end;
+    });
+};
+
+// 메인 캘린더
+const setMainCalendar = (year, month) => {
+    const titleyearmonthDiv2 = document.querySelector(".year-month");
+    titleyearmonthDiv2.innerHTML = `${year}.${String(month).padStart(2, "0")}`;
+
+    dateBoxDiv.replaceChildren();
+
+    const firstDay = new Date(year, month - 1, 1).getDay();
+    const lastDate = new Date(year, month, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+        dateBoxDiv.appendChild(document.createElement("div"));
+    }
+
+    for (let d = 1; d <= lastDate; d++) {
+        const cell = document.createElement("div");
+        cell.className = "date-item";
+
+        const dayIndex = (firstDay + d - 1) % 7;
+        const dateStr = `${year}-${String(month).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+
+        if (dayIndex === 0) cell.style.color = "red";
+        if (dayIndex === 6) cell.style.color = "blue";
+
+        const num = document.createElement("div");
+        num.className = "date-number";
+        num.textContent = d;
+        cell.appendChild(num);
+
+        const eventsWrap = document.createElement("div");
+        eventsWrap.className = "day-events";
+
+        getEventsForDate(dateStr).forEach(ev => {
+            const bar = document.createElement("div");
+            bar.className = "calendar-event";
+            bar.textContent = ev.title;
+            bar.style.backgroundColor = "#5B9BFF";
+            bar.onclick = e => {
+                e.stopPropagation();
+                location.href = `html/eventAdd.html?id=${ev.id}`;
+            };
+            eventsWrap.appendChild(bar);
+        });
+
+        cell.appendChild(eventsWrap);
+
+        if (
+            year === now.getFullYear() &&
+            month === now.getMonth() + 1 &&
+            d === now.getDate()
+        ) {
+            cell.style.background = "#E8F0FE";
         }
 
         dateBoxDiv.appendChild(cell);
     }
 };
+setCalendar(sideYear, sideMonth);
+setMainCalendar(mainYear, mainMonth);
 
-setCalendar(year, month);
-setMainCalendar(year, month);
-
-// 이전달 아이콘 클릭 시 캘린더 변경
-const leftDiv = document.getElementsByClassName("left")[0];
-const lefDiv = document.getElementsByClassName("lef")[0];
-leftDiv.onclick = () => {
-    month--;
-    if(month == 0) {
-        year--;
-        month = 12;
+// 이전달 아이콘 클릭 시 캘린더 이동
+document.querySelector(".left").onclick = () => {
+    sideMonth--;
+    if (sideMonth === 0) {
+        sideYear--;
+        sideMonth = 12;
     }
-    setCalendar(year, month);
-    setMainCalendar(year, month);
-}
-lefDiv.onclick = () => {
-    month--;
-    if(month == 0) {
-        year--;
-        month = 12;
+    setCalendar(sideYear, sideMonth);
+};
+
+document.querySelector(".right").onclick = () => {
+    sideMonth++;
+    if (sideMonth === 13) {
+        sideYear++;
+        sideMonth = 1;
     }
-    setCalendar(year, month);
-    setMainCalendar(year, month);
-}
+    setCalendar(sideYear, sideMonth);
+};
 
-// 이후달 아이콘 클릭 시 캘린더 변경
-const rightDiv = document.getElementsByClassName("right")[0];
-const rigDiv = document.getElementsByClassName("rig")[0];
-rightDiv.onclick = () => {
-    month++;
-    if(month == 13) {
-        year++;
-        month = 1;
+document.querySelector(".lef").onclick = () => {
+    mainMonth--;
+    if (mainMonth === 0) {
+        mainYear--;
+        mainMonth = 12;
     }
-    setCalendar(year, month);
-    setMainCalendar(year, month);
-}
-rigDiv.onclick = () => {
-    month++;
-    if(month == 13) {
-        year++;
-        month = 1;
+
+    setMainCalendar(mainYear, mainMonth);
+
+    sideYear = mainYear;
+    sideMonth = mainMonth;
+    setCalendar(sideYear, sideMonth);
+};
+
+document.querySelector(".rig").onclick = () => {
+    mainMonth++;
+    if (mainMonth === 13) {
+        mainYear++;
+        mainMonth = 1;
     }
-    setCalendar(year, month);
-    setMainCalendar(year, month);
-}
 
-// 이번달/Today 텍스트 클릭 시 이번달로 이동
-const thismonthDiv = document.getElementsByClassName("yearmonth")[0];
-const thismonthDiv2 = document.getElementById("dday");
-thismonthDiv.onclick = () => {
-    now = new Date();
-    year = now.getFullYear();
-    month = now.getMonth()+1;
-    setCalendar(year, month);
-    setMainCalendar(year, month);   
-}
-thismonthDiv2.onclick = () => {
-    now = new Date();
-    year = now.getFullYear();
-    month = now.getMonth()+1;
-    setCalendar(year, month);
-    setMainCalendar(year, month);
-}
+    setMainCalendar(mainYear, mainMonth);
 
-const menuIcon = document.querySelector('.menu i');
-const navCalendar = document.getElementById('nav-calendar');
+    sideYear = mainYear;
+    sideMonth = mainMonth;
+    setCalendar(sideYear, sideMonth);
+};
 
-menuIcon.onclick = () => {
-    navCalendar.classList.toggle('hidden');
-}
+document.getElementById("dday").onclick = () => {
+    const today = new Date();
+    mainYear = today.getFullYear();
+    mainMonth = today.getMonth() + 1;
 
-const eventAddBtn = document.getElementById('event-add');
-eventAddBtn.onclick = () => {
-    window.location.href = 'html/eventAdd.html';
-}
+    setMainCalendar(mainYear, mainMonth);
 
-dateBoxDiv.onclick = () => {
-    window.location.href = 'html/eventAdd.html';
-} 
+    sideYear = mainYear;
+    sideMonth = mainMonth;
+    setCalendar(sideYear, sideMonth);
+};
+
+document.querySelector(".menu i").onclick = () => {
+    document.getElementById("nav-calendar").classList.toggle("hidden");
+};
+
+document.getElementById("event-add").onclick = () => {
+    location.href = "html/eventAdd.html";
+};
+
+dateBoxDiv.onclick = (e) => {
+    if (e.target.closest(".calendar-event")) return;
+    location.href = "html/eventAdd.html";
+};
+
+// 캘린더 정렬 버튼 toggle
+const btnMonth = document.getElementById("btnMonth");
+const btnList = document.getElementById("btnList");
+
+const monthView = document.getElementById("monthView");
+const listView = document.getElementById("listView");
+
+listView.classList.add("hidden");
+
+btnMonth.onclick = () => {
+    btnMonth.classList.add("active");
+    btnList.classList.remove("active");
+
+    monthView.classList.remove("hidden");
+    listView.classList.add("hidden");
+};
+
+btnList.onclick = () => {
+    btnList.classList.add("active");
+    btnMonth.classList.remove("active");
+
+    monthView.classList.add("hidden");
+    listView.classList.remove("hidden");
+
+    renderListView();
+};
+
+// 리스트 뷰
+const renderListView = () => {
+    const listView = document.getElementById("listView");
+    listView.replaceChildren();
+
+    const events = JSON.parse(localStorage.getItem("events") || "[]");
+
+    if (events.length === 0) {
+        const empty = document.createElement("p");
+        empty.textContent = "일정이 없습니다.";
+        listView.appendChild(empty);
+        return;
+    }
+
+    events.sort((a, b) => {
+        const aDate = a.startDate || "";
+        const bDate = b.startDate || "";
+        return aDate.localeCompare(bDate);
+    });
+
+    let currentDate = "";
+
+    events.forEach(ev => {
+        const date = ev.startDate || "날짜 없음";
+
+        if (date !== currentDate) {
+            currentDate = date;
+            const dateDiv = document.createElement("div");
+            dateDiv.className = "list-date";
+            dateDiv.textContent = currentDate;
+            listView.appendChild(dateDiv);
+        }
+
+        const item = document.createElement("div");
+        item.className = "list-event";
+        item.textContent = ev.title;
+        item.onclick = () => {
+            location.href = `html/eventAdd.html?id=${ev.id}`;
+        };
+
+        listView.appendChild(item);
+    });
+};
