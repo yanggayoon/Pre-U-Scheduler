@@ -361,63 +361,41 @@ main {
 }
 
 .alarm-wrapper {
-    gap: 8px;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
 }
 
-.alarm-wrapper select {
-    outline: none;
-    font-size: 13px;
-    padding: 8px 12px;
-    border-radius: 4px;
-    border: 1px solid #DDD;
-}
-
-.btn {
-    color: #666;
+.toggle-btn {
+    width: 70px;
+    height: 30px;
     cursor: pointer;
-    font-size: 13px;
-    padding: 8px 16px;
-    border-radius: 4px;
-    white-space: nowrap;
-    transition: all 0.2s;
-    background-color: #FFF;
-    border: 1px solid #DDD;
+    transition: 0.2s;
+    position: relative;
+    border-radius: 200px;
+    background-color: #D2D2D2;
 }
 
-.btn:hover {
-    border-color: #bbb;
-    background-color: #F5F5F5;
+.toggle-btn::before{
+    width: 25px;
+    content: '';
+    height: 25px;
+    margin: -8px 4px;
+    transition: 0.2s;
+    position: absolute;
+    border-radius: 200px;
+    background-color: #fff;
 }
 
-.alarm-wrapper .btn.active {
-    border: none;
-    color: #FFF;
-    cursor: pointer;
-    font-size: 13px;
-    padding: 8px 16px;
-    border-radius: 4px;
-    white-space: nowrap;
+input:checked + .toggle-btn{
     background-color: #5B5FFF;
-    transition: background-color 0.2s;
-};
-
-.btn-add-alarm {
-    color: #666;
-    cursor: pointer;
-    font-size: 13px;
-    margin-top: 10px;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: all 0.2s;
-    background-color: #FFF;
-    border: 1px solid #DDD;
 }
 
-.btn-add-alarm:hover {
-    border-color: #BBB;
-    background-color: #F5F5F5;
+input:checked + .toggle-btn::before{
+    transform: translateX(37.5px);
+}
+
+.alarm-wrapper input {
+    display: none;
 }
 
 .form-footer {
